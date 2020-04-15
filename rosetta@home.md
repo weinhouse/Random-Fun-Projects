@@ -1,4 +1,4 @@
-### rosetta@home, [Check me out on Wikipedia](https://en.wikipedia.org/wiki/Rosetta@home)
+### rosetta@home, [Check it out on Wikipedia](https://en.wikipedia.org/wiki/Rosetta@home)
 
 One can help with covid research processing by joining a project named [rosetta@home](http://boinc.bakerlab.org/rosetta/) PART OF THE UW INSTITUTE FOR PROTEIN DESIGN (University of Washington) https://www.bakerlab.org/
 
