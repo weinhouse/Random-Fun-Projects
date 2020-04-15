@@ -1,8 +1,8 @@
-### [rosetta@home](https://en.wikipedia.org/wiki/Rosetta@home)
+### rosetta@home, [Check me out on Wikipedia](https://en.wikipedia.org/wiki/Rosetta@home)
 
 One can help with covid research processing by joining a project named [rosetta@home](http://boinc.bakerlab.org/rosetta/) PART OF THE UW INSTITUTE FOR PROTEIN DESIGN (University of Washington) https://www.bakerlab.org/
 
-I heard about this project while reading an article about setting it up on a Rasperry pi. I've been experimenting with pi's to do home automation type work in my off grid solr shed and figured it would be a good place to run my node. Although my little pi 3 (Model B Rev 1.2) hasn't much processing power, it seemed as though it would be an interesting project to try and figured that every little bit helps. following are the steps I went through:
+I heard about this project while reading an article about setting it up on a Rasperry pi. I've been experimenting with pi's to do home automation type work in my off grid solr shed and figured it would be a good place to run a node. Although my little pi 3 (Model B Rev 1.2) hasn't much processing power, it seemed as though it would be an interesting project to try and figured that every little bit helps. following are the steps I went through:
 
 - Article described running via a gui, I wanted to run headless using ubuntu server for [Raspberry Pi](https://ubuntu.com/download/raspberry-pi)
 - Boinc a project sponsored at http://boinc.berkeley.edu
