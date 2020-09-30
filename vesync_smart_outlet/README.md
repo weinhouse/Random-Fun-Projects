@@ -1,6 +1,6 @@
 ### Vesync [smart outlets](http://www.vesync.com/outlets)
 
-It's recommended to upplug a battery from it's charger within an hour or so of full charge to prolog it's life. I wanted a script to monitor my new e-bike battery and have it turn off the charger within that time frame. I found these reasonably priced [outlets](http://www.vesync.com/outlets) which also has [Python API](https://pypi.org/project/pyvesync-v2/). The goal was to see when watts output are below a certain threashold indicating that charging is complete and to shut of the smart outlet to maximize the batteries life. I wanted to have this all self contained in a Docker image to be easliy deployed anywhere. I may use this script for other power tool batteries in the future.
+It's recommended to unplug a battery from it's charger within an hour or so of full charge to prolog it's life. I wanted a script to monitor my new e-bike battery and have it turn off the charger within that time frame. I found these reasonably priced [outlets](http://www.vesync.com/outlets) which also has [Python API](https://pypi.org/project/pyvesync-v2/). The goal was to see when watts output are below a certain threashold indicating that charging is complete and to shut of the smart outlet to maximize the batteries life. I wanted to have this all self contained in a Docker image to be easliy deployed anywhere. I may use this script for other power tool batteries in the future.
 
 #### Here is how I use this script:
 - vesync outlet is plugged into the wall and connected to battery charger.
