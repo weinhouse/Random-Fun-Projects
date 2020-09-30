@@ -16,6 +16,7 @@ Any comments on process or code is always appreciated!
 #### A few thoughts and tips to help you if you would like to try the same.
 - Grab a vsync outlet and set it up with their app.
 - Generate Docker image with included docker file, it has [vsync_v2 api](https://pypi.org/project/pyvesync-v2/). might be worth installing on your local machine and experimenting first.
+  - You will need to generate a Deployment Key on GitHub and have that key in the docker directory to be copied to your image.
   - `docker build -t weinhouse/home_python_scripts:r1 .`
 - monitor_outlet.py script is run via cron or other process to see if outlet is pushing watts, may want to check every 5 minutes or so
   - Edit this file with the threshold based on what the charger pulls.
