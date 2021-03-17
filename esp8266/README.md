@@ -11,7 +11,7 @@ Flashing esp-01 with [Espressif AT firmware](https://www.espressif.com/en/suppor
 ```
 NOTE! - change --port depending on what is in use.
       - it's recommended to erase flash first.
-      - 
+ 
 esptool.py --port /dev/ttyUSB0 erase_flash
 
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0x00000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/boot_v1.7.bin
@@ -19,4 +19,13 @@ esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset 
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0xfc000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/esp_init_data_default_v08.bin
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0x7e000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/blank.bin
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0xfe000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/blank.bin
+```
+Check version with AT+GMR and other AT [Instruction Set](https://www.espressif.com/sites/default/files/documentation/4a-esp8266_at_instruction_set_en.pdf)
+```
+AT+GMR
+AT version:1.7.4.0(May 11 2020 19:13:04)
+SDK version:3.0.4(9532ceb)
+compile time:May 27 2020 10:12:17
+Bin version(Wroom 02):1.7.4
+OK
 ```
