@@ -20,7 +20,9 @@ esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset 
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0x7e000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/blank.bin
 esptool.py --chip auto --port /dev/ttyUSB0 --baud 115200 --before default_reset --after hard_reset write_flash -z --flash_mode dio --flash_freq 40m --flash_size 1MB 0xfe000 /home/larryw/Desktop/flash/ESP8266_NonOS_AT_Bin_V1.7.4/bin/blank.bin
 ```
-Check version with AT+GMR and other AT [Instruction Set](https://www.espressif.com/sites/default/files/documentation/4a-esp8266_at_instruction_set_en.pdf)
+Check version with AT+GMR and other AT [Instruction Sethttps://gist.github.com/bewest/4632563](https://www.espressif.com/sites/default/files/documentation/4a-esp8266_at_instruction_set_en.pdf)
+  - ##### NOTE! Can't use Screen does not have \r\n use [miniterm.py](https://gist.github.com/bewest/4632563) or Arduino IDE's serial interface
+    - `miniterm.py -p /dev/ttyUSB0 -b 115200`
 ```
 AT+GMR
 AT version:1.7.4.0(May 11 2020 19:13:04)
