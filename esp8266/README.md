@@ -1,4 +1,4 @@
-Goal of this project is to figure out hardware and software for remote sensors which will send data to home atomation infrastructure using rest or more likely MQTT. I was interested in deep sleep mode to sleep for say 10 minutes consuming < 1 Milliamp and then read and send (~20 seconds of higher consuption processing). I've explored the following interfaces:
+Goal of this project is to figure out hardware and software for remote sensors which will send data to home atomation infrastructure using rest or more likely MQTT. I was interested in deep sleep mode to sleep for say 10 minutes consuming < 1 Milliamp and then read and send (~20 seconds of higher consuption processing). All work done in my Linux environment. I've explored the following interfaces:
 
 - Raw AT commands (To hard to create anything very useful)
 - MicroPython (Cool, but seemes pretty unstable on the boards tested)
