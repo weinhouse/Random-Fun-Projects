@@ -22,7 +22,7 @@ import onewire
 import ds18x20
 import urequests
 import network
-import do_connect
+import do_connect # This is also uploaded to esp
 
 url = 'http://192.168.1.2/cgi-bin/first.py'
 
@@ -84,4 +84,41 @@ except Exception as e:
 print('\nTime to deep sleep')
 
 deep_sleep(600000)
+```
+connection lib: (Started working on functionality to read signal strength of my networks will determine best essid to connect to)
+```
+# cat do_connect.py 
+from time import sleep
+
+def sortme(scan_list):
+    return(sorted(scan_list, key = lambda x: x[3], reverse = True))
+
+
+def do_connect():
+    import network
+    ourssids = ['OurNetwork2.4', 'AlexRoom-2.4', 'Backyard', 'Shed2.4']
+    my_wifi_hotspots = []
+
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    stations = wlan.scan()
+    sorted_stations = sortme(stations)
+    best_wifi_choice = sorted_stations[0][0].decode("utf-8")
+
+    print('\nhotspot using:{}, best hotspot:{}'.format(wlan.config('essid'),best_wifi_choice))
+
+    print('\nhotspots by signal strength:')
+    for i in sorted_stations:
+        if i[0].decode("utf-8") in ourssids:
+            my_wifi_hotspots.append('{},({})'.format(i[0].decode("utf-8"),i[3]))
+            print('dBm: {}, HotSpot: {}'.format(i[3],i[0].decode("utf-8"))) 
+    print('\nnetwork config{}\n'.format(wlan.ifconfig()))
+    print(', '.join(my_wifi_hotspots))
+
+    if not wlan.isconnected():
+        print('connecting to network...')
+        wlan.connect('AlexRoom-2.4', '<your password>')
+        while not wlan.isconnected():
+            pass
+    sleep(1)
 ```
