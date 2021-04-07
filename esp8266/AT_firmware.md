@@ -32,7 +32,7 @@ AT+CWMODE=1 # 1 = STA, 2 = AP, 3 = Both
 
 AT+CWLAP #List networks
 
-AT+CWJAP="AlexRoom-2.4","8188872432"
+AT+CWJAP="AlexRoom-2.4","<wifi_password>"
 
 Show connection
 AT+CIFSR
