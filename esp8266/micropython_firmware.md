@@ -13,7 +13,7 @@ esptool.py  --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect -f
 boot.py is the file that runs first and then main.py, these files live on the esp, files system that micropython creates. This filesystem can be read and written to via python on repl, in your script, or via tools that can use serial to manage.
   - Adafruit has a tool [adafruit-ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy?gclid=Cj0KCQjw0caCBhCIARIsAGAfuMxI42mR9D5vCgR_MoLn2ln7aC0qGG-dMGxoMWt9SmYBjVuPZ0xIZN0aAohNEALw_wcB) that can read, copy, rm,etc on the esp8266 filesystem.
 
-I wrote and tested a script that reads voltage of the battery, reads temperature, sends that data to web server, then deep sleeps:
+I wrote and tested a script in MicroPython that reads voltage of the battery, reads temperature, sends that data to web server, then deep sleeps:
 ```
 # cat main.py 
 from time import sleep
