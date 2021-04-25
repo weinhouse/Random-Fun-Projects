@@ -20,6 +20,6 @@ Goal of this project is to figure out hardware and software for remote sensors w
 #### flashing:
 Using [esptool.py](https://github.com/espressif/esptool) for flashing installed with pip install esptool
 
-Flashing esp-01 with [Espressif AT firmware](https://www.espressif.com/en/support/download/at) (V1.7.4	2020.06.03). [Example](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/AT_firmware.md)
+[Flashing](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/AT_firmware.md) esp-01, NodeMCU, and Huzzah breakout with [Espressif AT firmware](https://www.espressif.com/en/support/download/at) (V1.7.4	2020.06.03). [Example](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/AT_firmware.md)
 
-Flashing esp-01 and Huzzah breakout with [Micropython](http://docs.micropython.org/en/latest/esp8266/quickref.html), here is [Huzzah example](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/micropython_firmware.md)
+[Flashing](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/micropython_firmware.md) esp-01, NodeMCU, and Huzzah breakout with [Micropython](http://docs.micropython.org/en/latest/esp8266/quickref.html), here is [Huzzah example](https://github.com/weinhouse/Random-Fun-Projects/blob/master/esp8266/micropython_firmware.md)
