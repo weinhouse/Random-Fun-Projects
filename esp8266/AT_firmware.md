@@ -1,4 +1,4 @@
-Flashing esp-01, NODEMCU HILETGO dev board with [Espressif AT firmware](https://www.espressif.com/en/support/download/at) (V1.7.4	2020.06.03)
+Flashing esp-01, NODEMCU-HILETGO, espressif-ESP-WROOM-02U dev boards with [Espressif AT firmware](https://www.espressif.com/en/support/download/at) (V1.7.4	2020.06.03)
 
 Download and unzip the file, there is a README.md that will help with flashing located in the unzipped folder: `ESP8266_NonOS_AT_Bin_V1.7.4/bin/at/README.md`, and following are the esptool commands that I used to place image at the correct locations:
 ```
