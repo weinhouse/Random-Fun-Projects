@@ -12,7 +12,8 @@ The goal of this project is to have a stable environment to host websites from a
   - Python is compiled and installed in a virutal environment with custom $PATH for it's use
   - wsgi for django or other wsgi apps is compiled against the above Python version
   - Python pip is updated and software installed via a requirements.txt file
-  - ports 80 and 443 are exposed for web serving.
+  - certbot for creation and updating of lets encrypt ssl certificates.
+  - Ports 80 and 443 are exposed for web serving.
   - startup.sh starts a cron daemon and apache2 in the foreground
 - Build the image within the docker directory which contains file "Dockerfile":
   - `docker build -t <name of your docker image, ie. jumilla_appserver:1.2> .`
