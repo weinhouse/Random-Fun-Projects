@@ -6,7 +6,7 @@ The goal of this project is to have a stable environment to host websites from a
 - special data processing on my home network for home automation via cgi and webhook type scripts.
 
 ### The docker image:
-- Included in the image:
+- Whats in Dockerfile to create this image:
   - Base image is Debian Buster
   - Dependency software is added via apt
   - Python is compiled and installed in a virutal environment with custom $PATH for it's use
@@ -14,16 +14,16 @@ The goal of this project is to have a stable environment to host websites from a
   - Python pip is updated and software installed via a requirements.txt file
   - ports 80 and 443 are exposed for web serving.
   - startup.sh starts a cron daemon and apache2 in the foreground
-- Build the image with:
-  - `docker build -t jumilla_appserver:1.2 .`
+- Build the image within the docker directory which contains file "Dockerfile":
+  - `docker build -t <name of your docker image, ie. jumilla_appserver:1.2> .`
 - Currently I save and load the image to and from my file system:
-  - save image: `docker save jumilla_appserver:1.2 -o jumilla_appserver.1.2`
-  - load image: `docker image load -i /tmp/jumilla_appserver.1.2`
+  - save image: `docker save <name of your docker image, ie. jumilla_appserver:1.2> -o <name of file your saving, ie. jumilla_appserver.1.2>`
+  - load image: `docker image load -i <name of file created above, ie. /tmp/jumilla_appserver.1.2>`
 
 ### Start up the docker container:
  - Start container with something like:
-   - `docker run -d --hostname appserver.weinhouse.com --name appserver -p 80:80 -p 443:443 --volume /home/larryw/code/home/nuc/webserver:/usr/local/jumilla -e TZ=America/Los_Angeles  jumilla_appserver:1.2`
-     - host machine needs to have `~/code/home/nuc/webserver` directory containing your post start script and webpage files.
+   - `docker run -d --hostname <hostname you want, ie. appserver.weinhouse.com> --name <docker container name, ie. appserver> -p 80:80 -p 443:443 --volume <path_on_host:path_in_container, ie. /home/larryw/code/home/nuc/webserver:/usr/local/jumilla> -e TZ=America/Los_Angeles  <name of image, ie. jumilla_appserver:1.2>`
+     - host machine needs to have `<path_on_host, ie. /home/larryw/code/home/nuc/webserver>` directory containing your post start script and webpage files.
 - I log into the new container and run a rebuild_jumilla_configs.sh script located on the volume that's mounted.
 - This script runs on container where it copies files from host to container, changes permissions on container, etc.
 - My rebuild_jumilla_configs.sh does the following:
