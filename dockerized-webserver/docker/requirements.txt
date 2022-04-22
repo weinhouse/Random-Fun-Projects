@@ -9,7 +9,7 @@ ConfigArgParse==1.5.3
 configobj==5.0.6
 cryptography==36.0.1
 distro==1.7.0
-Django==4.0.3
+Django==4.0.4
 idna==3.3
 josepy==1.13.0
 numpy==1.22.3
