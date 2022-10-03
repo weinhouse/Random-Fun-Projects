@@ -2,11 +2,11 @@
 
 Using a sprinkler controller (I'm using a [Rachio](https://rachio.com/)) to send a start signal to wireless signal device (I'm using [Raspberry Pi zero-w](https://www.raspberrypi.com/products/raspberry-pi-zero-w/)), which then sends a signal to a wireless relay to start a sprinkler (I'm using a [Shelly1](https://shopusa.shelly.cloud/shelly-1-wifi-smart-home-automation-1#163)). Need an Optocoupler (I'm using [SFH620A-2](https://www.digikey.com/en/products/detail/vishay-semiconductor-opto-division/SFH620A-2/1731591?utm_medium=email&utm_source=oce&utm_campaign=4251_OCE22RT&utm_content=productdetail_US&utm_cid=3127460&so=77457002&mkt_tok=MDI4LVNYSy01MDcAAAGGbRmd_kJ0XreCpOpFP1nH02K7By-9nil4TQubpnW5AxNZf_YGMN3IoHuVOIzBOp7uCn9jmENH0GFDrcg8C5zHVmM8B710Uo-bifJVCry7)) to move signal from 24 volt sprinkler to 5v wireless signal device. **ToDo: might be better to use microcontroller like esp 8266/32 or Pi pico-w**
 
-We need to set up a [pi zero](https://github.com/weinhouse/home/blob/master/pi/pi_zero_with_rachio/PiSetup.md)
+We need to set up a [pi zero](https://github.com/weinhouse/Random-Fun-Projects/blob/master/pi/pi_zero_with_rachio/PiSetup.md)
 
 Next a circuit so Rachio can signal the pi. The circuit consists of two resistors reducing the 24 voltage to ~5.6v because the resistor into the Optocoupler would get very hot otherwise. When Optocoupler is triggered, it connects the 3.3v of the Pi to a GPIO signaling that Shelly should be notified to turn on.
 
-![alt text](ome/blob/master/pi/pi_zero_with_rachio/RachioToPi.png "Rachio to GPIO schematic")
+![alt text](https://github.com/weinhouse/Random-Fun-Projects/blob/master/pi/pi_zero_with_rachio/RachioToPi.png "Rachio to GPIO schematic")
 
 
 
