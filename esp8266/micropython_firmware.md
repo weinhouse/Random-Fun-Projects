@@ -15,7 +15,7 @@ boot.py is the file that runs first and then main.py, these files live on the es
 
 I wrote and tested a script in MicroPython that reads voltage of the battery, reads temperature, sends that data to web server, then deep sleeps:
 ```
-# cat main.py 
+# cat main.py
 from time import sleep
 import machine
 import onewire
@@ -34,7 +34,7 @@ def read_temp():
     ds = ds18x20.DS18X20(ow)
     roms = ds.scan()
     ds.convert_temp()
-    sleep(1) 
+    sleep(1)
     c = ds.read_temp(roms[0])
     f = (c * 1.8)+32
     return f
@@ -87,7 +87,7 @@ deep_sleep(600000)
 ```
 connection lib: (Started working on functionality to read signal strength of my networks will determine best essid to connect to)
 ```
-# cat do_connect.py 
+# cat do_connect.py
 from time import sleep
 
 def sortme(scan_list):
