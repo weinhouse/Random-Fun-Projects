@@ -1,8 +1,9 @@
-## My solution to restrictive Proxmox policy
+## Server to host virutal machines, my solution to restrictive Proxmox policy
 
-I was looking for a solution to host a couple virtual machines on my home network. I've settled on mini computers to do this, first being an "Intel NUC" and currently working on setting up a second "Lenovo M710q". The goal is to create images that use a database and local storage that syncronizes to a Dropbox account that I have. This way I can have one VM server and one backup which can easily move to if the first hardware fails.:
-- Two main servers
-  - VM-1: to use for general monitoring and utilities for network, also housing two docker images
+I was looking for a solution to host a couple virtual machines on my home network. After some research online, I was planning to use Proxmox. The problem was that there is a restrictive policy where non paying users have to use a repo that Proxmox will not stand behind. Statements like it is good, but not fully tested versions and others like do not use for production. I changed my plan and settled on regular good old Debian(11) with built in KVM, libvert, and some utilities like virt-install and virt-manager. This will run on mini computers, first being my existing "Intel NUC", and currently I'm setting up a second "Lenovo M710q". The goal is to create virtual machines that will use my current docker images and local storage which I syncronizes to a Dropbox cloud storage. This way I can have one VM server and one as a hot backup which can easily take over if the first hardware fails:
+
+- Virtual machines to replace currently running hardware machines:
+  - VM-1: to use for general monitoring and utilities for my network, also house my two docker images
     - docker image for application server running web service, cgi service, django framework, etc.
     - docker image for database server (mysql)
   - VM-2 to use as a home assistant server for my home automation experimentation and use.
