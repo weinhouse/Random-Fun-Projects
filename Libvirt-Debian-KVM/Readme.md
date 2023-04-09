@@ -1,6 +1,6 @@
-## Server to host virutal machines, my solution to restrictive Proxmox policy
+## Server to host virutal machines, my solution to a restrictive Proxmox policy
 
-I was looking for a solution to host a couple virtual machines on my home network. After some research online, I was planning to use Proxmox. The problem was that there is a restrictive policy where non paying users have to use a repo that Proxmox will not stand behind. Statements like it is good, but not fully tested versions and others like do not use for production. I changed my plan and settled on regular good old Debian(11) with built in KVM, libvert, and some utilities like virt-install and virt-manager. This will run on mini computers, first being my existing "Intel NUC", and currently I'm setting up a second "Lenovo M710q". The goal is to create virtual machines that will use my current docker images and local storage which I syncronizes to a Dropbox cloud storage. This way I can have one VM server and one as a hot backup which can easily take over if the first hardware fails:
+I was looking for a solution to host a couple virtual machines on my home network. After some research, I was planning to use Proxmox. The problem was that there is a restrictive policy where non paying users have to use a repo that Proxmox will not stand behind. Statements like "mostly stable, but not fully tested versions" and others like "do not use for production" helped me to change my mind. I decided to use good old Debian(11) with built in [KVM](https://wiki.debian.org/KVM#Introduction), libvert, and some utilities like [virt-manager](https://virt-manager.org/), and virt-install. Seems to run well on mini computers, first being my existing "Intel NUC", and currently I'm setting up a second "Lenovo M710q". The goal is to create virtual machines that will use my current docker images for applications and database storage plus local storage which syncronizes to Dropbox cloud storage. This way I can have one machine for my virtual machines, and one as a warm/hot backup.:
 
 - Virtual machines to replace currently running hardware machines:
   - VM-1: to use for general monitoring and utilities for my network, also house my two docker images
@@ -35,7 +35,7 @@ I'm using debian 11 which does not have sudo, so need to install it and then add
   - `apt install --no-install-recommends qemu-system libvirt-clients libvirt-daemon-system`
 - Add image stuff:
   - `apt install qemu qemu-utils qemu-system-x86 virtinst`
-- Add some additional stuff (you may need additional depending on your needs):
+- Add some additional stuff (possibly more depending on your needs):
   - `apt install netcat dnsmasq bridge-utils sudo`
 - home assistant needs UEFI BIOS:
   - `apt install ovmf`
