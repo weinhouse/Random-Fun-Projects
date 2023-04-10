@@ -39,6 +39,79 @@ I'm using debian 11 which does not have sudo, so need to install it and then add
   - `apt install netcat dnsmasq bridge-utils sudo`
 - home assistant needs UEFI BIOS:
   - `apt install ovmf`
-- edit sutoers file with <username from install> ALL=(ALL:ALL) NOPASSWD:ALL
-  
-## More to come :-)
+- edit sutoers file with `<username from install>` ALL=(ALL:ALL) NOPASSWD:ALL
+- add public key to your virtual server for logging in and using virt-manager from a workstation to virtual server:
+  - `/home/`<username from install>`/.ssh/authorized_keys`
+- start and set up auto start networking:
+  - `virsh --connect=qemu:///system net-start default`
+  - `virsh --connect=qemu:///system net-autostart default`
+- Bridge configuration /etc/network/interfaces **edit for your network environment**
+```
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+# allow-hotplug enp0s31f6
+# iface enp0s31f6 inet dhcp
+
+#make sure we don't get addresses on our raw device
+iface enp0s31f6 inet manual
+iface enp0s31f6 inet6 manual
+
+#set up bridge and give it a static ip
+auto br0
+iface br0 inet static
+        address 192.168.1.37
+        netmask 255.255.255.0
+        network 192.168.1.0
+        broadcast 192.168.1.255
+        gateway 192.168.1.1
+        bridge_ports enp0s31f6
+        bridge_stp off
+        bridge_fd 0
+        bridge_maxwait 0
+        dns-nameservers 192.168.1.1 8.8.8.8
+
+#allow autoconf for ipv6
+iface br0 inet6 auto
+        accept_ra 1
+```
+
+- Should now be able to run virt-manager on your workstation and attach to your virtual host server to install instance or I like to use vert-install
+
+on `<virtual machine server>`: `cd /var/lib/libvert/images`
+
+**install a regular debian instance**
+```
+virt-install --name jumilla-virt-2 \
+--description "jumilla-virt-2-description" \
+--os-variant=generic \
+--ram=1024 \
+--vcpus=2 \
+--network bridge=br0 \
+--location ./debian-11.6.0-amd64-netinst.iso \
+--disk path=./jumilla-virt-2.qcow2,size=10 \
+--graphics none \
+--console pty,target_type=serial \
+--extra-args "console=ttyS0"
+```
+CTL + 5 gets you out of the shell
+
+**Home assistant install:**
+```
+virt-install --name hass-jumilla \
+--description "Home Assistant OS" \
+--os-variant=generic \
+--ram=2048 \
+--vcpus=2 \
+--disk ./haos_ova-9.5.qcow2,bus=sata \
+--graphics none \
+--boot uefi
+```
+CTL + 5 gets you out of the shell
