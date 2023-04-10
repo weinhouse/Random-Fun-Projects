@@ -84,26 +84,25 @@ iface br0 inet6 auto
 ```
 
 - Should now be able to run virt-manager on your workstation and attach to your virtual host server to install instance or I like to use vert-install
-
-on `<virtual machine server>`: `cd /var/lib/libvert/images`
-
-**install a regular debian instance**
-```
-virt-install --name jumilla-virt-2 \
---description "jumilla-virt-2-description" \
+- **on `<virtual machine server>`: `cd /var/lib/libvert/images` need to have iso or .qcow2 files in this directory for installs**
+  
+- install a regular debian instance
+ ```
+virt-install --name jumilla-virt \
+--description "Server to host my docker images" \
 --os-variant=generic \
---ram=1024 \
+--ram=4096 \
+--disk size=120
 --vcpus=2 \
 --network bridge=br0 \
 --location ./debian-11.6.0-amd64-netinst.iso \
---disk path=./jumilla-virt-2.qcow2,size=10 \
+--disk path=./jumilla-virt.qcow2,size=10 \
 --graphics none \
 --console pty,target_type=serial \
 --extra-args "console=ttyS0"
 ```
-CTL + 5 gets you out of the shell
-
-**Home assistant install:**
+`CTL + 5 gets you out of the shell`
+- Home assistant install:
 ```
 virt-install --name hass-jumilla \
 --description "Home Assistant OS" \
@@ -114,4 +113,4 @@ virt-install --name hass-jumilla \
 --graphics none \
 --boot uefi
 ```
-CTL + 5 gets you out of the shell
+`CTL + 5 gets you out of the shell`
