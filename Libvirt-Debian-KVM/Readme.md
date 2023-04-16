@@ -98,7 +98,7 @@ virt-install --name jumilla-virt \
 --vcpus=2 \
 --network bridge=br0 \
 --location ./debian-11.6.0-amd64-netinst.iso \
---disk path=./jumilla-virt.qcow2,size=10 \
+--disk path=./jumilla-virt.qcow2 \
 --graphics none \
 --console pty,target_type=serial \
 --extra-args "console=ttyS0"
