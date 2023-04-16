@@ -94,7 +94,7 @@ virt-install --name jumilla-virt \
 --description "Server to host my docker images" \
 --os-variant=generic \
 --ram=4096 \
---disk size=120
+--disk size=120 \
 --vcpus=2 \
 --network bridge=br0 \
 --location ./debian-11.6.0-amd64-netinst.iso \
