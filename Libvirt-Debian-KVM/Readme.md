@@ -42,6 +42,8 @@ I'm using debian 11 which does not have sudo, so need to install it and then add
 - edit sutoers file with `<username from install>` ALL=(ALL:ALL) NOPASSWD:ALL
 - add public key to your virtual server for logging in and using virt-manager from a workstation to virtual server:
   - `/home/`<username from install>`/.ssh/authorized_keys`
+- add `<user from install>` to libvirt group:
+  - adduser <user name from install> libvirt
 - start and set up auto start networking:
   - `virsh --connect=qemu:///system net-start default`
   - `virsh --connect=qemu:///system net-autostart default`
