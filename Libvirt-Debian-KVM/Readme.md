@@ -76,14 +76,14 @@ iface br0 inet6 auto
   
 - install a regular debian instance
  ```
-virt-install --name jumilla-virt \
---description "Server to host my docker images" \
+virt-install --name weinvirt \
+--description "weinhouse jumilla network server" \
 --os-variant=generic \
---ram=4096 \
+--ram=8192 \
 --vcpus=2 \
 --network bridge=br0 \
 --location ./debian-11.6.0-amd64-netinst.iso \
---disk path=./jumilla-virt.qcow2, size=120 \
+--disk path=./weinvirt.qcow2,size=60 \
 --graphics none \
 --console pty,target_type=serial \
 --extra-args "console=ttyS0"
