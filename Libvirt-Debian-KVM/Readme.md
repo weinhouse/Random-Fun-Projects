@@ -16,7 +16,6 @@ I was looking for a solution to host a couple virtual machines on my home networ
 
 ### Once satisfied with the server install I configured with the following:
 **I'm using debian 11 which does not have sudo, so need to install it and then add user to it (su - to become root)**
-- first time I ssh to server I get ".Xauthority does not exist" error message, fixed with `touch ~/.Xauthority`
 - KVM stuff:
   - `apt install --no-install-recommends qemu-system libvirt-clients libvirt-daemon-system`
 - Add image stuff:
@@ -28,6 +27,7 @@ I was looking for a solution to host a couple virtual machines on my home networ
 - edit /etc/sutoers file with `<username from install> ALL=(ALL:ALL) NOPASSWD:ALL`
 - add public key to your virtual server for logging in and using virt-manager from a workstation to virtual server:
   - add in ~/.ssh/authorized_keys
+- first time I ssh to server I get ".Xauthority does not exist" error message, fixed with `touch ~/.Xauthority`
 - add the user you added when installing to libvirt group:
   - `adduser <user name from install> libvirt`
 - start and set up auto start networking:
