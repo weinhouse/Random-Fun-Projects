@@ -1,4 +1,4 @@
-## Server to host virutal machines, my solution to a restrictive Proxmox policy
+## Hardware hosting virutal machines
 
 I was looking for a solution to host a couple virtual machines on my home network. After some research, I was planning to use Proxmox. The problem was that there is a restrictive policy where non paying users have to use a repo that Proxmox will not stand behind. Statements like "mostly stable, but not fully tested versions" and others like "do not use for production" helped me to change my mind. I decided to use good old Debian(11) with built in [KVM](https://wiki.debian.org/KVM#Introduction), libvert, and some utilities like [virt-manager](https://virt-manager.org/), and virt-install. Seems to run well on mini computers, first being my existing "Intel NUC", and currently I'm setting up a second "Lenovo M710q". The goal is to create virtual machines that will use my current docker images for applications and database storage plus local storage which syncronizes to Dropbox cloud storage. This way I can have one machine for my virtual machines, and one machine as a warm/hot backup.:
 
