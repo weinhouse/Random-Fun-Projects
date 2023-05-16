@@ -24,7 +24,7 @@ I was looking for a solution to host a couple virtual machines on my home networ
   - `apt install netcat dnsmasq bridge-utils sudo`
 - home assistant needs UEFI BIOS:
   - `apt install ovmf`
-- edit /etc/sutoers file with `<username from install> ALL=(ALL:ALL) NOPASSWD:ALL`
+- edit /etc/sudoers file with `<username from install> ALL=(ALL:ALL) NOPASSWD:ALL`
 - add public key to your virtual server for logging in and using virt-manager from a workstation to virtual server:
   - add in ~/.ssh/authorized_keys
 - first time I ssh to server I get ".Xauthority does not exist" error message, fixed with `touch ~/.Xauthority`
