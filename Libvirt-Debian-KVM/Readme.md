@@ -89,15 +89,17 @@ virt-install --name weinvirt \
 --extra-args "console=ttyS0"
 ```
 `CTL + 5 gets you out of the shell`
+
 - Home assistant install:
 ```
+Home assistant install:
 virt-install --name hass-jumilla \
 --description "Home Assistant OS" \
 --os-variant=generic \
 --ram=2048 \
 --vcpus=2 \
---disk ./haos_ova-9.5.qcow2,bus=sata \
+--disk ./haos_ova-10.1.qcow2,bus=sata \
 --graphics none \
---boot uefi
+--boot uefi \
+--hostdev 001-013
 ```
-`CTL + 5 gets you out of the shell`
