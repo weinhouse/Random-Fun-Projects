@@ -83,7 +83,7 @@ virt-install --name weinvirt \
 --vcpus=2 \
 --network bridge=br0 \
 --location ./debian-11.6.0-amd64-netinst.iso \
---disk path=./weinvirt.qcow2,size=60 \
+--disk path=./weinvirt.qcow2,size=80 \
 --graphics none \
 --console pty,target_type=serial \
 --extra-args "console=ttyS0"
