@@ -15,3 +15,9 @@ Other possibilities could be?
 - Offering some sort of API?
 - Sending to another device via rest?
 
+![link](https://docs.google.com/document/d/e/2PACX-1vRMHIf3cCzQNwxW5FcBkv3tdzKRkx1FjHkjvCygZDz4CN89An3AAmvDjBVt-Hg30fzuOjBPdlMAvlWV/pub)
+
+<iframe src="https://docs.google.com/document/d/e/2PACX-1vRMHIf3cCzQNwxW5FcBkv3tdzKRkx1FjHkjvCygZDz4CN89An3AAmvDjBVt-Hg30fzuOjBPdlMAvlWV/pub?embedded=true"></iframe>
+
+<div style="text-align: center"><iframe src="https://docs.google.com/document/d/e/2PACX-1vRMHIf3cCzQNwxW5FcBkv3tdzKRkx1FjHkjvCygZDz4CN89An3AAmvDjBVt-Hg30fzuOjBPdlMAvlWV/pub?embedded=true"></iframe></div>
+
