@@ -16,11 +16,14 @@ Other possibilities could be?
 - Sending to another device via rest?
 
 Breadboard:
+
 <img src="fritzing/esp32_with_Neopixel_bb.png" width="150" title="Bread Board"> Ver:0.3
 
 Schematic:
+
 <img src="fritzing/esp32_with_Neopixel_schem.png" width="150" title="Schematic"> Ver:0.3
 
 PCB:
+
 <img src="fritzing/esp32_with_Neopixel_pcb.png" width="150" title="PCB"> Ver:0.3
 
