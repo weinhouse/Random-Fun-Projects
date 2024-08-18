@@ -4,7 +4,7 @@
 # eMail=
 #
 # Project=esp32_with_Neopixel
-# Date=10:43:04
+# Date=10:56:15
 # CreatedBy=Fritzing 1.0.3b.2024-05-30.1.0.2rc2-247-ga7811ba0
 #
 #
@@ -15,7 +15,7 @@
 RefDes,Description,Package,X,Y,Rotation,Side,Mount
 Description: resistance;capacitance;inductance;voltage;current;power;mpn;mn;
 R1,"10000;;;;;0.25W;;;","THT",832.414,1112.47,0,Top,THT
-R2,"500;;;;;0.25W;;;","THT",1432.41,1112.47,0,Top,THT
-ESP32-S3 feather,";;;;;;;;","",1164.91,512.474,0,Top,MANUAL
 J1,";;;;;;;;","THT",382.414,1202.47,-90,Top,THT
+R2,"500;;;;;0.25W;;;","THT",1432.41,1112.47,0,Top,THT
 J2,";;;;;;;;","THT",1932.41,1202.47,-90,Top,THT
+ESP32-S3 feather,";;;;;;;;","",1164.91,512.474,0,Top,MANUAL
