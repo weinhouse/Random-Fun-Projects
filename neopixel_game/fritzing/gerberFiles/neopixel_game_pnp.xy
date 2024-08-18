@@ -1,0 +1,22 @@
+# Pick And Place List
+# Company=
+# Author=
+# eMail=
+#
+# Project=neopixel_game
+# Date=11:25:50
+# CreatedBy=Fritzing 1.0.3b.2024-05-30.1.0.2rc2-247-ga7811ba0
+#
+#
+# Coordinates in mils, always center of component
+# Origin 0/0=Lower left corner of PCB
+# Rotation in degree (0-360, math. pos.)
+#
+RefDes,Description,Package,X,Y,Rotation,Side,Mount
+Description: resistance;capacitance;inductance;voltage;current;power;mpn;mn;
+esp8266 nodemcu,";;;;;;;;","",1990.02,631.317,-90,Top,MANUAL
+R2,"10000;;;;;0.25W;;;","THT",1591.55,1480.07,0,Top,THT
+J1,";;;;;;;;","THT",2141.55,1470.07,-90,Top,THT
+J2,";;;;;;;;","THT",2591.55,1470.07,-90,Top,THT
+R1,"500;;;;;0.25W;;;","THT",991.551,1480.07,180,Top,THT
+S1,";;;;;;;;","tactile-pth",419.551,369.066,0,Top,SMT
