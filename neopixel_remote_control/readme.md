@@ -1,4 +1,4 @@
-<img src="proto-1.3.png" width="150" title="current version"> Ver:0.3
+<img src="proto-1.3.png" width="150" title="current version"> Click [here](https://www.tinkercad.com/things/kahzbEmmS9g-neopixelremotecontrol?sharecode=TFXhF4Kj6jqQL2hHBVZYXW4yPZQ3ARHbMsvUKvp-X0w) for 3D model
 
 
 I came up with this project as a way to make use of the 12 light Neopixel I had purchased to learn about NeoPixel. I want the device to be a fun way to control lights or sound volume.
