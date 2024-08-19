@@ -2,7 +2,7 @@ This game uses a touch sensor and neopixel. The player is asked to push the touc
 
 <img src="neopixel_game.png" title="current version">
 
-Bread Board:
+Bread Board: [arduino code](neopixel_game.ino)
 
 <img src="fritzing/neopixel_game_bb.png" width=300 title="current version">
 
