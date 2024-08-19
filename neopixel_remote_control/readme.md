@@ -17,13 +17,13 @@ Other possibilities could be?
 
 Breadboard:
 
-<img src="fritzing/esp32_with_Neopixel_bb.png" width="150" title="Bread Board"> Ver:0.3
+<img src="fritzing/esp32_with_Neopixel_bb.png" width="300" title="Bread Board">
 
 Schematic:
 
-<img src="fritzing/esp32_with_Neopixel_schem.png" width="150" title="Schematic"> Ver:0.3
+<img src="fritzing/esp32_with_Neopixel_schem.png" width="300" title="Schematic">
 
 PCB:
 
-<img src="fritzing/esp32_with_Neopixel_pcb.png" width="150" title="PCB"> Ver:0.3
+<img src="fritzing/esp32_with_Neopixel_pcb.png" width="150" title="PCB">
 
