@@ -27,3 +27,9 @@ PCB:
 
 <img src="fritzing/esp32_with_Neopixel_pcb.png" width="150" title="PCB">
 
+
+PCB QC:
+
+<img src="fritzing/esp32_with_Neopixel_gerberViewerQC.png" width="150" title="PCB_QC">
+
+
