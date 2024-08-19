@@ -9,7 +9,7 @@ I came up with this project as a way to make use of the 12 light Neopixel I had 
 - Battery powered with monitoring.
 - Indicators for connectivity and battery level via neopixel.
 
-Currently the device will be using [MQTT](https://mqtt.org/) to communicate. The receiving device would subscribe to the messages that this device sends to an MQTT server.
+Currently the device will be using [MQTT](https://mqtt.org/) to communicate. The receiving device would subscribe to the messages that this device sends to an MQTT server. Here is the [arduino code](arduino_using_mqtt/arduino_using_mqtt.ino) to communicate via MQTT.
 
 Other possibilities could be?
 - Offering some sort of API?
