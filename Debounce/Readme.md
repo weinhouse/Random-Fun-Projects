@@ -6,6 +6,7 @@ This project is a hardware device that will take different input signals, deboun
    - a momentary button push from a 433*MHZ* transmitter.
    - the momentary switch on the PCB
 
+![Testing images](DebounceBanner.png)
 
 #### Testing:
 - Tested using raspberry pi 4 with Adafruit FeatherWing relay switch.
