@@ -8,6 +8,13 @@ This project is a hardware device that will take different input signals, deboun
 
 ![Testing images](DebounceBanner.png)
 
+<details>
+<summary>Schematic</summary>
+
+   ![Testing images](Debounce_w_433Mhz_and_555Timer_schem.png)
+</details>
+
+
 #### Testing:
 - Tested using raspberry pi 4 with Adafruit FeatherWing relay switch.
      - <details>
