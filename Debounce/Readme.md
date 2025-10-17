@@ -96,3 +96,11 @@ This project is a hardware device that will take different input signals, deboun
          - three 3: This represents a clean transition 17.4*uS* 
          ![Testing images](Testing_w_pi_4.png)
      </details>
+
+#### ToDo:
+Set up using dedicated [Schmitt IC](https://www.youtube.com/watch?v=JrCIgBUPhro)
+
+#### Resources:
+- [Good video explaining debounce with 555 timer](https://www.youtube.com/watch?v=3lEN6hEGUmE)
+- [Texas Instruments datasheet 555 timer](https://www.ti.com/lit/ds/symlink/se555-sp.pdf?ts=1758741836955&ref_url=https%253A%252F%252Fwww.google.com%252F)
+- [433*Mhz* using QIACHIP](https://qiachip.com/collections/all-products-1)
