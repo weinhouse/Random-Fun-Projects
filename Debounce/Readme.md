@@ -21,8 +21,9 @@ This project is a hardware device that will take different input signals, deboun
          <summary>Code with explanation and images</summary>
 
          - Image 1: Raspberry pi 4 activates relay switch, then to debounce switch input, pi also listens for response from  debounce.
-           <details>
-               <summary>code to randomly activate relay</summary>
+            - 36 hours, 185,925 random switch activations pretty much all were debounced, 2 bounce events detected.
+             <details>
+               <summary>Python code to randomly activate relay</summary>
 
                ```
                import RPi.GPIO as GPIO # Import the RPi.GPIO library
@@ -57,7 +58,8 @@ This project is a hardware device that will take different input signals, deboun
            </details>
            
            <details>
-               <summary>code to listen for debounced signal</summary>
+               <summary>Python code to listen for debounced signal</summary>
+              
                ```
                import RPi.GPIO as GPIO
                import time
@@ -89,11 +91,10 @@ This project is a hardware device that will take different input signals, deboun
                    GPIO.cleanup() # Clean up all GPIO resources
                ```
            </details>
-
-            - 36 hours, 185,925 random noisy switch activations debounced with 2 single bounce events registered.
            
          - Image 2: Noisy signal ~5 bounces within 145*uS*
-         - three 3: This represents a clean transition 17.4*uS* 
+         - Image 3: This represents a clean transition 17.4*uS*
+           
          ![Testing images](Testing_w_pi_4.png)
      </details>
 
