@@ -6,12 +6,24 @@ This project is a hardware device that will take different input signals, deboun
    - a momentary button push from a 433*MHZ* transmitter.
    - the momentary switch on the PCB
 
-![Testing images](DebounceBanner.png)
+![Banner](DebounceBanner.png)
+
+<details>
+   <summary>Bread Board</summary>
+   
+   ![Debounce](Debounce_w_433Mhz_and_555Timer_bb.png)
+</details>
 
 <details>
 <summary>Schematic</summary>
 
-   ![Testing images](Debounce_w_433Mhz_and_555Timer_schem.png)
+   ![Schema](Debounce_w_433Mhz_and_555Timer_schem.png)
+</details>
+
+<details>
+   <summary>PCB</summary>
+   
+   ![Debounce](Debounce_w_433Mhz_and_555Timer_pcb.png)
 </details>
 
 
