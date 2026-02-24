@@ -2,6 +2,56 @@
 
 A Raspberry Pi 4B configured as a self-contained IoT demo device. The Pi4 acts as a WiFi hotspot, runs a Mosquitto MQTT broker, and serves a real-time Flask web dashboard. IoT devices (Pico W microcontrollers) connect to the hotspot, communicate via MQTT, and are monitored and controlled through the web dashboard.
 
+## Image the pi4 using Raspberry pi imager:
+
+## Create the Netplan config:
+```
+# Remove any existing/empty configs
+sudo rm /etc/netplan/*.yaml
+
+# Create the master renderer file
+echo -e "network:\n  version: 2\n  renderer: NetworkManager" | sudo tee /etc/netplan/01-network-manager-all.yaml
+
+# Apply the change
+sudo netplan apply
+```
+## Configure the Hotspot
+```
+# 1. Create the profile
+sudo nmcli con add type wifi con-name onboard-hotspot ifname wlan0 autoconnect yes ssid demomachine
+
+# 2. Set to Access Point mode (2.4GHz)
+sudo nmcli con modify onboard-hotspot 802-11-wireless.mode ap 802-11-wireless.band bg
+
+# 3. Set Security (WPA2)
+sudo nmcli con modify onboard-hotspot wifi-sec.key-mgmt wpa-psk wifi-sec.psk 818pierce
+
+# 4. Set Static IP and DHCP Range (192.168.4.2 to 192.168.4.51)
+sudo nmcli con modify onboard-hotspot ipv4.method shared ipv4.addresses 192.168.4.1/24
+sudo nmcli con modify onboard-hotspot ipv4.shared-dhcp-range "192.168.4.2,192.168.4.51"
+
+# 5. Optimization (Disable IPv6 to prevent hangs)
+sudo nmcli con modify onboard-hotspot ipv6.method ignore
+
+# 6. Activation
+sudo nmcli con up onboard-hotspot
+```
+
+## Demo dashboard to see who logs in
+```
+watch -n 1 "awk '{print \$3, \"\t\", \$4}' /var/lib/NetworkManager/dnsmasq-wlan0.leases"
+```
+## Troubleshooting commands
+```
+nmcli device
+ip addr show wlan0
+sudo iw dev wlan0 station dump
+sudo journalctl -u NetworkManager -f
+sudo nmcli radio wifi off && sudo nmcli radio wifi on
+```
+
+
+
 ---
 
 ## Hardware
