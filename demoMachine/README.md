@@ -2,6 +2,12 @@
 
 A Raspberry Pi 4B configured as a self-contained IoT demo device. The Pi4 acts as a WiFi hotspot, runs a Mosquitto MQTT broker, and serves a real-time Flask web dashboard. IoT devices (Pico W microcontrollers) connect to the hotspot, communicate via MQTT, and are monitored and controlled through the web dashboard.
 
+
+# Operational Behavior
+- **With ethernet:** pi gets internet access: you can ssh via 192.168.1.5 (this is your network)
+- **Standalone (No Ethernet):** eth0 will show as `unavailable` or `disconnected`. You can still ssh via the wi-fi at 192.168.4.1
+- **Client Connections:** Android devices will warn "No Internet" This is correct. The local network is active, and the device will communicate in the 192.168.4.x network.
+
 ## Image the pi4 using Raspberry pi imager:
 
 ## Create the Netplan config:
@@ -35,6 +41,39 @@ sudo nmcli con modify onboard-hotspot ipv6.method ignore
 
 # 6. Activation
 sudo nmcli con up onboard-hotspot
+```
+
+## Static Ethernet Assignment (confirm that it's name is eth0)
+```
+# Create a permanent profile for the Ethernet port
+sudo nmcli con add type ethernet con-name eth0 ifname eth0 \
+  ipv4.method manual \
+  ipv4.addresses 192.168.1.5/24 \
+  ipv4.gateway 192.168.1.1 \
+  ipv4.dns "8.8.8.8,1.1.1.1" \
+  connection.autoconnect yes
+
+# Apply the profile
+sudo nmcli con up eth0
+```
+
+## Optional, remove IP v6
+```
+sudo vi /boot/firmware/cmdline.txt
+# at end of file place:
+ipv6.disable=1
+```
+### System-wide config to remove ipv6
+```
+sudo tee -a /etc/sysctl.conf <<EOF
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+net.ipv6.conf.wlan0.disable_ipv6 = 1
+EOF
+
+sudo sysctl -p
 ```
 
 ## Demo dashboard to see who logs in
