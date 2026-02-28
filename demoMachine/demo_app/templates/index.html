@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demomachine UI</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding-top: 50px; }
+        .card { background: #1e1e1e; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .btn { padding: 15px 30px; margin: 10px; font-size: 1.1rem; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .on { background: #27ae60; color: white; }
+        .off { background: #c0392b; color: white; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Demomachine v1.0</h1>
+        <p>Controller: <b>picow_cotroller_hat_1</b></p>
+        <hr>
+        <h3>Relay 1 Control</h3>
+        <button class="btn on" onclick="send(1, 'on')">ON</button>
+        <button class="btn off" onclick="send(1, 'off')">OFF</button>
+    </div>
+
+    <script>
+        function send(id, state) {
+            fetch(`/toggle/${id}/${state}`)
+                .then(response => console.log("Command Sent"));
+        }
+    </script>
+</body>
+</html>
