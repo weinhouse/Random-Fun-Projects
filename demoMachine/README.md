@@ -21,7 +21,8 @@ echo -e "network:\n  version: 2\n  renderer: NetworkManager" | sudo tee /etc/net
 # Apply the change
 sudo netplan apply
 ```
-## Configure the Hotspot
+## Configure the Hotspot 
+**Get this working before you edit eth0 so your not completely locked out**
 ```
 # 1. Create the profile
 sudo nmcli con add type wifi con-name onboard-hotspot ifname wlan0 autoconnect yes ssid demomachine
@@ -110,12 +111,6 @@ sudo iw dev wlan0 station dump
 sudo journalctl -u NetworkManager -f
 sudo nmcli radio wifi off && sudo nmcli radio wifi on
 ```
-
-Since you are moving toward a **Flask-based UI** to interact with your MicroPython controller, **Nginx** is the superior choice over Apache. Flask is a "lean" framework, and Nginx is designed for high-performance, low-overhead routing, which fits the Raspberry Pi architecture perfectly.
-
-While Apache is a classic "all-in-one" server, Nginx excels at serving static files (CSS/JS) and passing dynamic requests (your Python code) to a gateway like **Gunicorn**. This creates a much more responsive UI for your demo audience.
-
----
 
 ## 2. Installation: Nginx & Mosquitto
 
