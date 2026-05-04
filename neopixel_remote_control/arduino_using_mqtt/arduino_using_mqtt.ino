@@ -149,9 +149,9 @@ void reconnectMQTT() {
   for ( int i = 0; i < 3; i++ ) {
     pixelDisplay(strip.Color(0,   180,   0), 10);
   //while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
+    Serial.print("Attempting MQTT connection mqtt.lan...");
     // Attempt to connect
-    if (client.connect("arduinoClient","mqtt","mqtt")) {
+    if (client.connect("arduinoClient","user","password")) {
     Serial.println("connected");
     break;
     } else {
@@ -168,7 +168,6 @@ void reconnectMQTT() {
 
 
 void initMulti() {
-  wifiMulti.addAP("AlexRoom-2.4", "");
   wifiMulti.addAP("OurNetwork2.4", "");
   wifiMulti.addAP("Backyard", "");
   Serial.print("Starting wiFi. ");
@@ -241,7 +240,7 @@ void setup() {
     Serial.println(F("Couldnt find Adafruit MAX17048?\nMake sure a battery is plugged in!"));
     delay(2000);
   }
-  client.setServer("192.168.1.6",1883); //MQTT Server.
+  client.setServer("mqtt.lan",1883); //MQTT Server.
   initMulti(); //Start Wifi
 }
 
