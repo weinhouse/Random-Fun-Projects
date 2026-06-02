@@ -3,6 +3,7 @@
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <PubSubClient.h>
+#include "secrets.h"                 // gitignored — MQTT_USER, MQTT_PASSWORD, WIFI_PASSWORD
 
 WiFiMulti wifiMulti;
 
@@ -151,7 +152,7 @@ void reconnectMQTT() {
   //while (!client.connected()) {
     Serial.print("Attempting MQTT connection mqtt.lan...");
     // Attempt to connect
-    if (client.connect("arduinoClient","user","password")) {
+    if (client.connect("arduinoClient", MQTT_USER, MQTT_PASSWORD)) {
     Serial.println("connected");
     break;
     } else {
@@ -168,8 +169,8 @@ void reconnectMQTT() {
 
 
 void initMulti() {
-  wifiMulti.addAP("OurNetwork2.4", "");
-  wifiMulti.addAP("Backyard", "");
+  wifiMulti.addAP("OurNetwork2.4", WIFI_PASSWORD);
+  wifiMulti.addAP("Backyard",      WIFI_PASSWORD);
   Serial.print("Starting wiFi. ");
   for ( int i = 0; i < 3; i++ ) {
     pixelDisplay(strip.Color(0,   180,   0), 10);

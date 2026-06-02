@@ -1,0 +1,27 @@
+# --- Firmware secrets (MQTT passwords, WiFi passwords) ---
+# Each Arduino/MicroPython project has a `secrets.h.template` (committed)
+# and a local `secrets.h` / `secrets.py` (NEVER committed). Copy template
+# to the real file and fill in values before flashing.
+#
+# This is a PUBLIC repo — real secrets must NEVER be tracked.
+**/secrets.h
+**/secrets.py
+
+# --- OS / editor junk ---
+.DS_Store
+thumbs.db
+desktop.ini
+.idea
+.vscode/
+*.swp
+
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+
+# --- Arduino IDE build artifacts ---
+build/
+*.elf
+*.bin
+*.map
