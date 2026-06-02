@@ -79,9 +79,20 @@ float IRAM_ATTR checkLipo() {
 
 void IRAM_ATTR mqttPublishBat() {
   if(currentTime - last_mqtt_time > mqtt_publish_interval || last_mqtt_time > currentTime) {
-    char result[8];
-    dtostrf(cellVoltage, 6, 2, result);
-    client.publish("jumilla/neopixel/battery", result);
+    // Voltage (volts)
+    char vStr[8];
+    dtostrf(cellVoltage, 6, 2, vStr);
+    client.publish("jumilla/neopixel/battery", vStr);
+
+    // State-of-charge (percent, 0–100) — also from the MAX17048 fuel gauge.
+    // Cheap extra I2C read; published on the same cadence as voltage.
+    float pct = maxlipo.cellPercent();
+    if (!isnan(pct)) {
+      char pctStr[8];
+      dtostrf(pct, 4, 1, pctStr);
+      client.publish("jumilla/neopixel/battery_percent", pctStr);
+    }
+
     last_mqtt_time = currentTime;
   }
 }
