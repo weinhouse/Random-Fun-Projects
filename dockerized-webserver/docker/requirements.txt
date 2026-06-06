@@ -2,7 +2,7 @@ acme==1.24.0
 asgiref==3.5.0
 certbot==1.24.0
 certbot-apache==1.24.0
-certifi==2021.10.8
+certifi==2022.12.7
 cffi==1.15.0
 charset-normalizer==2.0.12
 ConfigArgParse==1.5.3
