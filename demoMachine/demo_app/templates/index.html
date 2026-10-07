@@ -1,31 +1,393 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demomachine UI</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding-top: 50px; }
-        .card { background: #1e1e1e; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .btn { padding: 15px 30px; margin: 10px; font-size: 1.1rem; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
-        .on { background: #27ae60; color: white; }
-        .off { background: #c0392b; color: white; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>demoMachine · Coop Controller</title>
+<!--
+  Everything in this file is self-contained: no CDN, no web fonts, no external
+  anything. The demo rig is an offline island, so a page that needed the
+  internet would come up broken in front of the class.
+
+  Every widget prints the MQTT topic it is bound to. The point of the demo is
+  that the UI is not magic — it is one subscriber among many, and a student can
+  watch the same traffic from their own laptop with the command at the bottom.
+-->
+<style>
+  :root{
+    --bg:#10141b; --panel:#161c26; --panel-2:#1d2531; --line:#2a3443;
+    --text:#dfe6f0; --muted:#7c8899; --label:#9aa7b8;
+    --green:#3ddc84; --amber:#ffb224; --red:#ff5d4e; --cyan:#4fc3f7; --violet:#b07cff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"DejaVu Sans Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.4;
+  }
+
+  /* ── header ───────────────────────────────────────────────────────── */
+  header{
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center;
+    padding:12px 16px; background:var(--panel);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:5;
+  }
+  .brand{font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:14px}
+  .brand span{color:var(--muted); font-weight:500}
+  .spacer{flex:1}
+  .statuses{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+  .stat{display:flex; gap:7px; align-items:center; font-size:12px; color:var(--label);
+        text-transform:uppercase; letter-spacing:.05em}
+  .hdr-actions{display:flex; gap:8px}
+
+  /* ── lamps ────────────────────────────────────────────────────────── */
+  .lamp{
+    width:14px; height:14px; border-radius:50%; flex:none;
+    background:#2b3341; box-shadow:inset 0 0 0 1px #0b0e13;
+    transition:background .15s, box-shadow .15s;
+  }
+  .lamp.green{background:var(--green); box-shadow:0 0 9px 1px rgba(61,220,132,.55), inset 0 0 0 1px rgba(0,0,0,.35)}
+  .lamp.amber{background:var(--amber); box-shadow:0 0 9px 1px rgba(255,178,36,.5), inset 0 0 0 1px rgba(0,0,0,.35)}
+  .lamp.red  {background:var(--red);   box-shadow:0 0 9px 1px rgba(255,93,78,.5), inset 0 0 0 1px rgba(0,0,0,.35)}
+  .lamp.big{width:34px; height:34px}
+
+  /* ── layout ───────────────────────────────────────────────────────── */
+  main{padding:16px; display:grid; gap:16px; grid-template-columns:repeat(2,minmax(0,1fr)); max-width:1200px; margin:0 auto}
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .panel.full{grid-column:1/-1}
+  .panel > h2{
+    margin:0; padding:9px 14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--label); background:var(--panel-2); border-bottom:1px solid var(--line); font-weight:600;
+  }
+  .panel-body{padding:14px; display:grid; gap:14px}
+  @media (max-width:760px){ main{grid-template-columns:1fr; padding:10px; gap:10px} }
+
+  /* ── io rows ──────────────────────────────────────────────────────── */
+  .io{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+      padding:12px; background:var(--panel-2); border:1px solid var(--line); border-radius:8px}
+  .io-name{font-weight:600; font-size:14px}
+  .io-value{font-size:13px; color:var(--muted)}
+  .io-value b{color:var(--text); font-weight:700; letter-spacing:.03em}
+  .topic{font-family:var(--mono); font-size:11px; color:#5d6a7d; margin-top:3px; word-break:break-all}
+  .readout{font-family:var(--mono); font-size:30px; font-weight:600; letter-spacing:-.01em; line-height:1.1}
+  .readout small{font-size:14px; color:var(--muted); font-weight:400}
+  .controls{display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end}
+
+  /* ── buttons ──────────────────────────────────────────────────────── */
+  button{
+    font:inherit; font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--text); background:#263141; border:1px solid var(--line);
+    padding:9px 13px; border-radius:6px; cursor:pointer; min-width:62px;
+  }
+  button:hover{background:#2f3c4f}
+  button:active{transform:translateY(1px)}
+  button.go{border-color:#2f6b4a; color:#b9f3d0}
+  button.go:hover{background:#1e3b2c}
+  button.stop{border-color:#6e3029; color:#ffc9c2}
+  button.stop:hover{background:#3b1f1c}
+  button.ghost{background:transparent; color:var(--label)}
+  button.ghost:hover{background:#222b38; color:var(--text)}
+  .hdr-actions button{min-width:0; padding:7px 11px; font-size:11px}
+
+  /* ── banner ───────────────────────────────────────────────────────── */
+  .banner{
+    grid-column:1/-1; display:none; gap:10px; align-items:center;
+    padding:10px 14px; border-radius:8px; font-size:13px;
+    background:#3a2410; border:1px solid #6b4518; color:#ffd9a3;
+  }
+  .banner.show{display:flex}
+
+  /* ── traffic ──────────────────────────────────────────────────────── */
+  .traffic-tools{display:flex; gap:8px; align-items:center; flex-wrap:wrap; padding:10px 14px;
+                 border-bottom:1px solid var(--line); background:#131924}
+  .traffic-tools label{font-size:12px; color:var(--label); display:flex; gap:6px; align-items:center}
+  #traffic{
+    margin:0; padding:6px 0; max-height:340px; overflow-y:auto;
+    font-family:var(--mono); font-size:12px; background:#0c1016;
+  }
+  .msg{display:grid; grid-template-columns:62px auto 1fr; gap:10px; padding:3px 14px; border-bottom:1px solid #141a23}
+  .msg:hover{background:#131a24}
+  .msg .ts{color:#4e5a6b}
+  .msg .tp{color:var(--cyan)}
+  .msg .pl{color:var(--text); word-break:break-all}
+  .msg.cmd   .tp{color:var(--amber)}
+  .msg.log   .tp{color:var(--muted)}  .msg.log   .pl{color:var(--muted)}
+  .msg.diag  .tp{color:var(--violet)}
+  .msg.reply .tp{color:var(--green)}
+  .msg .flag{display:inline-block; margin-left:6px; padding:0 5px; border-radius:3px;
+             font-size:10px; background:#2a3443; color:#93a1b5; vertical-align:1px}
+  @media (max-width:760px){ .msg{grid-template-columns:52px 1fr; } .msg .pl{grid-column:2} }
+
+  .hint{padding:10px 14px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); background:#131924}
+  .hint code{font-family:var(--mono); color:var(--cyan); background:#0c1016;
+             padding:2px 6px; border-radius:4px; display:inline-block; word-break:break-all}
+
+  footer{max-width:1200px; margin:0 auto; padding:4px 16px 28px;
+         display:flex; gap:20px; flex-wrap:wrap; font-size:12px; color:var(--muted)}
+  footer b{color:var(--label); font-weight:600}
+</style>
 </head>
 <body>
-    <div class="card">
-        <h1>Demomachine v1.0</h1>
-        <p>Controller: <b>picow_cotroller_hat_1</b></p>
-        <hr>
-        <h3>Relay 1 Control</h3>
-        <button class="btn on" onclick="send(1, 'on')">ON</button>
-        <button class="btn off" onclick="send(1, 'off')">OFF</button>
-    </div>
 
-    <script>
-        function send(id, state) {
-            fetch(`/toggle/${id}/${state}`)
-                .then(response => console.log("Command Sent"));
-        }
-    </script>
+<header>
+  <div class="brand">demoMachine <span>· Coop Controller</span></div>
+  <div class="spacer"></div>
+  <div class="statuses">
+    <div class="stat"><span class="lamp" id="lamp-device"></span><span id="txt-device">device</span></div>
+    <div class="stat"><span class="lamp" id="lamp-broker"></span><span id="txt-broker">broker</span></div>
+  </div>
+  <div class="hdr-actions">
+    <!-- RESYNC exists for the case where no new message is coming and the
+         broker's picture is wrong: someone hand-published a fake state, or
+         Mosquitto restarted and dropped its retained set. It asks the Pico to
+         republish from the actual pins — the only source that can't be wrong. -->
+    <button class="ghost" onclick="ask('state')" title="Ask the Pico to republish every state topic from the real pins">Resync</button>
+    <button class="ghost" onclick="ask('ping')" title="Round trip test — watch for the reply in the traffic pane">Ping</button>
+  </div>
+</header>
+
+<main>
+  <div class="banner" id="banner"><span class="lamp red"></span><span id="banner-text"></span></div>
+
+  <!-- ── INPUTS ─────────────────────────────────────────────────────── -->
+  <section class="panel">
+    <h2>Inputs — the Pico reads these</h2>
+    <div class="panel-body">
+      <div class="io">
+        <span class="lamp big" id="lamp-door"></span>
+        <div>
+          <div class="io-name">Coop Door</div>
+          <div class="io-value">GP4 · optocoupler · <b id="door-val">--</b></div>
+          <div class="topic">{{ device }}/door</div>
+        </div>
+        <div class="io-value" id="door-note" style="text-align:right;max-width:9em"></div>
+      </div>
+
+      <div class="io">
+        <span class="lamp big" id="lamp-temp"></span>
+        <div>
+          <div class="io-name">Coop Temperature</div>
+          <div class="readout"><span id="temp-f">--</span><small>&#8457;</small>
+            <small style="margin-left:8px" id="temp-c">--&#8451;</small></div>
+          <div class="topic">{{ device }}/temp_c</div>
+        </div>
+        <div class="io-value" id="temp-note" style="text-align:right;max-width:9em">DS18B20</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── OUTPUTS ────────────────────────────────────────────────────── -->
+  <section class="panel">
+    <h2>Outputs — the Pico drives these</h2>
+    <div class="panel-body">
+      <div class="io">
+        <span class="lamp big" id="lamp-r1"></span>
+        <div>
+          <div class="io-name">Relay 1</div>
+          <div class="io-value">GP6 · <b id="r1-val">--</b> · button 1 toggles it too</div>
+          <div class="topic">{{ device }}/switch1/set &rarr; /state</div>
+        </div>
+        <div class="controls">
+          <button class="go"   onclick="sw(1,'on')">On</button>
+          <button class="stop" onclick="sw(1,'off')">Off</button>
+          <button onclick="sw(1,'toggle')">Tgl</button>
+        </div>
+      </div>
+
+      <div class="io">
+        <span class="lamp big" id="lamp-r2"></span>
+        <div>
+          <div class="io-name">Relay 2</div>
+          <div class="io-value">GP7 · <b id="r2-val">--</b> · button 2 toggles it too</div>
+          <div class="topic">{{ device }}/switch2/set &rarr; /state</div>
+        </div>
+        <div class="controls">
+          <button class="go"   onclick="sw(2,'on')">On</button>
+          <button class="stop" onclick="sw(2,'off')">Off</button>
+          <button onclick="sw(2,'toggle')">Tgl</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TRAFFIC ────────────────────────────────────────────────────── -->
+  <section class="panel full">
+    <h2>MQTT traffic — everything under demo/#</h2>
+    <div class="traffic-tools">
+      <button class="ghost" id="btn-pause" onclick="togglePause()">Pause</button>
+      <button class="ghost" onclick="clearTraffic()">Clear</button>
+      <label><input type="checkbox" id="chk-follow" checked> follow</label>
+      <span class="io-value" style="margin-left:auto" id="traffic-count">0 messages</span>
+    </div>
+    <div id="traffic"></div>
+    <div class="hint">
+      Commands are amber, device state cyan, diagnostics violet, replies green.
+      <b>R</b> marks a retained message — one the broker had stored before you arrived.
+      Watch the same stream from your own machine:<br>
+      <code>{{ broker_hint }}</code>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div><b>uptime</b> <span id="f-uptime">--</span></div>
+  <div><b>free mem</b> <span id="f-mem">--</span></div>
+  <div><b>wifi</b> <span id="f-wifi">--</span></div>
+  <div><b>last boot</b> <span id="f-reset">--</span></div>
+  <div><b>last message</b> <span id="f-seen">--</span></div>
+</footer>
+
+<script>
+// ── polling ──────────────────────────────────────────────────────────────
+// The browser polls because plain HTTP cannot be pushed to. Flask itself is
+// push-fed by MQTT, so this interval is only the display lag, not the data lag.
+const POLL_MS = 500;
+let cursor = 0;          // last seq we have rendered
+let paused = false;
+let buffered = [];       // messages that arrived while paused
+
+const $ = id => document.getElementById(id);
+
+function setLamp(el, colour){ el.className = 'lamp' + (el.classList.contains('big') ? ' big' : '') + (colour ? ' ' + colour : ''); }
+
+async function tick(){
+  try{
+    const r = await fetch(`/api/state?since=${cursor}`);
+    const d = await r.json();
+    cursor = d.seq;
+    render(d);
+    appendMessages(d.messages);
+  }catch(e){
+    setLamp($('lamp-broker'), 'red');
+    $('txt-broker').textContent = 'no dashboard';
+  }
+  setTimeout(tick, POLL_MS);
+}
+
+// ── widgets ──────────────────────────────────────────────────────────────
+function render(d){
+  const s = d.state;
+  const online = s.status === 'online';
+
+  setLamp($('lamp-device'), s.status === null ? '' : (online ? 'green' : 'red'));
+  $('txt-device').textContent = s.status === null ? 'device unknown' : (online ? 'device online' : 'device offline');
+  setLamp($('lamp-broker'), d.broker ? 'green' : 'red');
+  $('txt-broker').textContent = d.broker ? 'broker up' : 'broker down';
+
+  // A banner, not a hidden state: if the Pico is gone, every lamp below is a
+  // memory rather than a reading, and the page should say so out loud.
+  const banner = $('banner');
+  if(s.status === 'offline'){
+    banner.classList.add('show');
+    $('banner-text').textContent = 'Device offline (its last will fired). Values below are the last known, not live.';
+  }else if(s.status === null){
+    banner.classList.add('show');
+    $('banner-text').textContent = 'No state retained for this device yet — has the Pico ever connected to this broker?';
+  }else{
+    banner.classList.remove('show');
+  }
+
+  // Door: closed is the reassuring state for a coop, so green. Open is amber,
+  // not red — open is normal during the day, it just isn't shut.
+  const door = s.door;
+  setLamp($('lamp-door'), door === 'closed' ? 'green' : door === 'open' ? 'amber' : '');
+  $('door-val').textContent = door ? door.toUpperCase() : '--';
+  $('door-note').textContent = door === 'closed' ? 'sensor blocked' : door === 'open' ? 'no target' : 'no reading';
+
+  // Temperature: null means the firmware deleted its retained value, i.e. no
+  // probe or three bad reads in a row. Showing '--' beats showing a stale number.
+  if(s.temp_c === null || s.temp_c === undefined){
+    $('temp-f').textContent = '--';
+    $('temp-c').innerHTML = '--&#8451;';
+    setLamp($('lamp-temp'), '');
+    $('temp-note').textContent = 'no probe';
+  }else{
+    const c = parseFloat(s.temp_c);
+    $('temp-f').textContent = (c * 9/5 + 32).toFixed(1);
+    $('temp-c').innerHTML = c.toFixed(1) + '&#8451;';
+    setLamp($('lamp-temp'), 'green');
+    $('temp-note').textContent = 'DS18B20';
+  }
+
+  relay(1, s.switch1); relay(2, s.switch2);
+
+  const h = s.health || {};
+  $('f-uptime').textContent = h.uptime_s === undefined ? '--' : fmtUptime(h.uptime_s);
+  $('f-mem').textContent    = h.mem_free === undefined ? '--' : Math.round(h.mem_free/1024) + ' kB';
+  $('f-wifi').textContent   = s.wifi ? `${s.wifi.quality} (${s.wifi.rssi} dBm)` : '--';
+  $('f-reset').textContent  = s.reset_cause || '--';
+  $('f-seen').textContent   = s.last_seen ? ago(s.last_seen) : '--';
+}
+
+function relay(n, val){
+  setLamp($('lamp-r' + n), val === 'on' ? 'green' : val === 'off' ? '' : '');
+  $('r' + n + '-val').textContent = val ? val.toUpperCase() : '--';
+}
+
+function fmtUptime(s){
+  const d = Math.floor(s/86400), h = Math.floor(s%86400/3600), m = Math.floor(s%3600/60);
+  return d ? `${d}d ${h}h ${m}m` : h ? `${h}h ${m}m` : `${m}m`;
+}
+function ago(unix){
+  const s = Math.max(0, Math.round(Date.now()/1000 - unix));
+  return s < 60 ? s + 's ago' : Math.round(s/60) + 'm ago';
+}
+
+// ── traffic pane ─────────────────────────────────────────────────────────
+const MAX_ROWS = 300;
+let total = 0;
+
+function appendMessages(msgs){
+  if(!msgs.length) return;
+  if(paused){ buffered.push(...msgs); return; }
+  flush(msgs);
+}
+
+function flush(msgs){
+  const pane = $('traffic');
+  const follow = $('chk-follow').checked;
+  const atBottom = pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 30;
+  const frag = document.createDocumentFragment();
+
+  for(const m of msgs){
+    const row = document.createElement('div');
+    row.className = 'msg ' + m.kind;
+    const ts = document.createElement('span'); ts.className = 'ts'; ts.textContent = m.t;
+    const tp = document.createElement('span'); tp.className = 'tp'; tp.textContent = m.topic;
+    if(m.retained){
+      const f = document.createElement('span'); f.className = 'flag'; f.textContent = 'R';
+      tp.appendChild(f);
+    }
+    const pl = document.createElement('span'); pl.className = 'pl'; pl.textContent = m.payload === '' ? '(empty — retained value deleted)' : m.payload;
+    row.append(ts, tp, pl);
+    frag.appendChild(row);
+  }
+  pane.appendChild(frag);
+  total += msgs.length;
+
+  while(pane.childElementCount > MAX_ROWS) pane.removeChild(pane.firstElementChild);
+  $('traffic-count').textContent = total + ' message' + (total === 1 ? '' : 's');
+  if(follow && atBottom) pane.scrollTop = pane.scrollHeight;
+}
+
+function togglePause(){
+  paused = !paused;
+  $('btn-pause').textContent = paused ? 'Resume' : 'Pause';
+  if(!paused && buffered.length){ flush(buffered); buffered = []; }
+}
+function clearTraffic(){ $('traffic').innerHTML = ''; total = 0; $('traffic-count').textContent = '0 messages'; }
+
+// ── commands ─────────────────────────────────────────────────────────────
+// Fire and forget. Nothing here touches a lamp: the lamp moves when the Pico
+// publishes its new state, so what you see is always the hardware answering,
+// never the UI assuming. Unplug the Pico and press On — nothing moves, which
+// is the truth.
+function sw(n, action){ fetch(`/api/switch/${n}/${action}`, {method:'POST'}); }
+function ask(what){ fetch(`/api/request/${what}`, {method:'POST'}); }
+
+tick();
+</script>
 </body>
 </html>
