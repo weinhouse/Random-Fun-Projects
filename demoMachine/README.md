@@ -11,7 +11,7 @@ A Raspberry Pi 4B configured as a self-contained IoT demo device. The Pi4 acts a
 ## Image the pi4 using Raspberry pi imager:
 ***
 ### After the following I created a [backup image](https://www.dropbox.com/scl/fi/g0w18qcrupod8lokd74e4/demoMachinePi4B_piShrink.img.gz?rlkey=il7a8pncgrepvf54p8jayqxoj&st=2dgxhzp0&dl=0) of the sd card for quick recovery if it becomes corrupted saved In Dropbox
-- Use Raspberry Pi imager to create the image
+- Use Raspberry Pi imager to create the image (user = pi, pw = 818pierce)
 - Image will be the size of the sd card (32GB in this case)
 - Reduce the size of this image with PiShrink script and gzip the file becomes ~2GB
 - Use Raspberry Pi imager to place this backup image on new sd card
